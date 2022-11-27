@@ -54,7 +54,7 @@ export const BeaconProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       const _wallet = new BeaconWallet({
-        name: "Playtime-Club",
+        name: "Escrow Demo",
         preferredNetwork: networkType,
         disableDefaultEvents: true, // Disable all events / UI. This also disables the pairing alert.
         eventHandlers: {
