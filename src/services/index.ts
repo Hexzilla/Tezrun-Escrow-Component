@@ -13,7 +13,7 @@ export const getEscrowBalance = () => {
 }
 
 export const takeRewards = (address: string) => {
-  const url = `${BaseUrl}/escrow/reward/${address}`;
+  const url = `${BaseUrl}/api/escrow/reward/${address}`;
   return axios.get(url)
     .then((res: any) => {
       return res.data.result;

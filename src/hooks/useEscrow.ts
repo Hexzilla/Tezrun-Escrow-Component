@@ -9,7 +9,7 @@ export const useEscrow = () => {
     try {
       const contract = await tezos.wallet.at(Mainnet.Escrow);
       const op = await contract.methods.deposit().send({
-        amount: 0.1,
+        amount: 1,
       });
       return op.confirmation();
     } catch (e) {
