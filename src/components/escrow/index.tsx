@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -12,33 +13,48 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-context-hook";
-import { getEscrowBalance } from "services";
+import * as escrowService from "services";
+import { setLoading } from "slices/play";
 import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
+import useInterval from "hooks/useInterval";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
 };
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
+  const dispatch = useDispatch();
   const { address } = useBeacon();
   const { deposit } = useEscrow();
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
   const [balance, setBalance] = useState(0);
+  const [playState, setPlayState] = useState(false);
+  const [rewards, setRewards] = useState(false);
 
   const onRaceWon = (param) => {
     console.log("RaceWon", param);
+    setPlayState(false);
+    setRewards(true);
+    toast.success('Congratulations. You won!')
   };
 
   const onRaceLost = (param) => {
     console.log("RaceLost", param);
+    setPlayState(false);
+    setRewards(true);
+    toast.error('You lose!')
   };
 
   const getEscrow = async () => {
-    const balance = await getEscrowBalance();
+    const balance = await escrowService.getEscrowBalance();
     console.log("balance", balance);
     setBalance(balance);
   };
+
+  useInterval(() => {
+    getEscrow();
+  }, 1000)
 
   useEffect(() => {
     getEscrow();
@@ -49,6 +65,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       removeEventListener("RaceWon", onRaceWon);
       removeEventListener("RaceLost", onRaceLost);
     };
+  // eslint-disable-next-line
   }, []);
 
   const startGame = async () => {
@@ -56,11 +73,29 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       toast.error("Please connect your wallet");
       return;
     }
-    //const result = await deposit();
-    //console.log("startGame", result);
-    //if (!!result) {
-    sendMessage("GameManager", "StartRace");
-    //}
+    dispatch(setLoading(true));
+
+    const result = await deposit();
+    console.log("startGame", result);
+    if (!!result) {
+      sendMessage("GameManager", "StartRace");
+      setPlayState(true);
+      getEscrow();
+    }
+    dispatch(setLoading(false));
+  };
+
+  const takeReward = async () => {
+    dispatch(setLoading(true));
+
+    const result = await escrowService.takeRewards(address!);
+    console.log("take, result", result);
+    if (!!result) {
+      toast.success("You took rewards successfully");
+    } else {
+      toast.error("Something went wrong!");
+    }
+    dispatch(setLoading(false));
   };
 
   return (
@@ -82,10 +117,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                     display: "flex",
                   }}
                 >
-                  <Typography
-                    color="primary.main"
-                    variant="h3"
-                  >
+                  <Typography color="primary.main" variant="h3">
                     Total in Escrow {balance}
                   </Typography>
                 </Box>
@@ -99,8 +131,16 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button size="small" variant="outlined" onClick={startGame}>
+                <Button size="small" variant="outlined" onClick={startGame} disabled={!!playState}>
                   Start Game
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={takeReward}
+                  disabled={!!playState || !rewards}
+                >
+                  Take Reward
                 </Button>
               </CardActions>
             </Card>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Mainnet } from 'configs';
+import { Mainnet, BaseUrl } from 'configs';
 
 const TZSTATS_URL = 'https://api.tzstats.com';
 
@@ -8,6 +8,15 @@ export const getEscrowBalance = () => {
   return axios.get(url)
     .then((res: any) => {
       return res.data.spendable_balance;
+    })
+    .catch(e => console.error(e));
+}
+
+export const takeRewards = (address: string) => {
+  const url = `${BaseUrl}/escrow/reward/${address}`;
+  return axios.get(url)
+    .then((res: any) => {
+      return res.data.result;
     })
     .catch(e => console.error(e));
 }

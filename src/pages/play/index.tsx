@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from 'react-redux'
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { MainLayout } from "components/main-layout";
 import { Escrow } from "components/escrow";
+import { RootState } from "store";
+import Loader from "components/loader";
 
 const unityConfig = {
   loaderUrl: "Build/public.loader.js",
@@ -12,10 +15,12 @@ const unityConfig = {
 };
 
 const Play = () => {
+  const { loading } = useSelector((state: RootState) => state.play);
   const unityContext = useUnityContext(unityConfig);
 
   return (
     <MainLayout>
+      {loading && <Loader />}
       <Box
         component="main"
         sx={{
