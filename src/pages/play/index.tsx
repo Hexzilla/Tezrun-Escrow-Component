@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
 //import { RootState } from "store";
-import useSocket from "hooks/useSocket";
 import { MainLayout } from "components/main-layout";
 //import TezosBoard from "components/play/playtime-tezos";
 import { Escrow } from "components/escrow";
@@ -18,22 +17,8 @@ const unityConfig = {
 
 const Play = () => {
   const dispatch = useDispatch();
-  //const wallet = useWallet();
   const unityContext = useUnityContext(unityConfig);
-  //const { sendMessage, addEventListener, removeEventListener } = unityContext;
   //const { connected } = useSelector((state: RootState) => state.play);
-  const { socket } = useSocket();
-
-  useEffect(() => {
-    socket.on("START_GAME", (msg) => {
-      console.log("start-game", msg);
-      toast.success("Game started");
-    });
-
-    return () => {
-      socket.off("START_GAME");
-    };
-  }, [dispatch, socket]);
 
   return (
     <MainLayout>
@@ -65,7 +50,7 @@ const Play = () => {
           </Card>
           <Card sx={{ mt: 3 }}>
             {/* <TezosBoard socket={socket} /> */}
-            <Escrow></Escrow>
+            <Escrow unityContext={unityContext}></Escrow>
           </Card>
         </Container>
       </Box>

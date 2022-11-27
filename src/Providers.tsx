@@ -9,7 +9,6 @@ import { createEmotionCache } from "./utils/create-emotion-cache";
 import { store } from "./store";
 import { createTheme } from "./theme";
 import { BeaconProvider } from "./contexts/BeaconContext";
-import { SocketProvider } from "./contexts/SocketContext";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -28,9 +27,7 @@ const Providers: React.FC<{ children?: JSX.Element | JSX.Element[] }> = ({
         >
           <CssBaseline />
           <Toaster position="top-center" />
-          <SocketProvider>
-            <BeaconProvider>{children}</BeaconProvider>
-          </SocketProvider>
+          <BeaconProvider>{children}</BeaconProvider>
         </ThemeProvider>
       </StyledEngineProvider>
     </ReduxProvider>
