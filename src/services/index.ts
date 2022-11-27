@@ -16,7 +16,7 @@ export const takeRewards = (address: string) => {
   const url = `${BaseUrl}/api/escrow/reward/${address}`;
   return axios.get(url)
     .then((res: any) => {
-      return res.data.result;
+      return res.data.data;
     })
     .catch(e => console.error(e));
 }
