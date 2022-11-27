@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Divider,
   Grid,
+  Typography,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-context-hook";
@@ -30,9 +36,9 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
 
   const getEscrow = async () => {
     const balance = await getEscrowBalance();
-    console.log('balance', balance)
+    console.log("balance", balance);
     setBalance(balance);
-  }
+  };
 
   useEffect(() => {
     getEscrow();
@@ -47,14 +53,14 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
 
   const startGame = async () => {
     if (!address) {
-      toast.error('Please connect your wallet');
+      toast.error("Please connect your wallet");
       return;
     }
-    const result = await deposit();
-    console.log("startGame", result);
-    if (!!result) {
-      sendMessage("GameManager", "StartRace");
-    }
+    //const result = await deposit();
+    //console.log("startGame", result);
+    //if (!!result) {
+    sendMessage("GameManager", "StartRace");
+    //}
   };
 
   return (
@@ -62,23 +68,45 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8,
       }}
     >
-      <Grid mt={6} sx={{ flexGrow: 1 }} container spacing={2}>
-        <Grid item xs={12}>
-          Total in Escrow
-          <Button
-            component="a"
-            size="medium"
-            target="_blank"
-            variant="contained"
-            onClick={startGame}
-          >
-            Start Game
-          </Button>
+      <Container maxWidth="xl">
+        <Grid container justifyContent="space-between" spacing={3}>
+          <Grid item md={6} xs={12}></Grid>
+          <Grid item md={6} xs={12}>
+            <Card>
+              <CardContent>
+                <Box
+                  sx={{
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    color="primary.main"
+                    variant="h3"
+                  >
+                    Total in Escrow {balance}
+                  </Typography>
+                </Box>
+                <Typography sx={{ mt: 2 }} variant="h6">
+                  You need at lest 1 tez to play game
+                </Typography>
+                <Typography color="textSecondary" variant="body2">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Typography>
+              </CardContent>
+              <Divider />
+              <CardActions>
+                <Button size="small" variant="outlined" onClick={startGame}>
+                  Start Game
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
     </Box>
   );
 };
