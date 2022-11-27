@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
   Grid,
 } from "@mui/material";
 import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-context-hook";
+import { getEscrowBalance } from "services";
+import { useEscrow } from "hooks/useEscrow";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
 };
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
+  const { deposit } = useEscrow();
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
+  const [balance, setBalance] = useState(0);
 
   const onRaceWon = (param) => {
     console.log("RaceWon", param);
@@ -25,17 +25,24 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     console.log("RaceLost", param);
   };
 
+  const getEscrow = async () => {
+    const balance = await getEscrowBalance();
+    console.log('balance', balance)
+    setBalance(balance);
+  }
+
   useEffect(() => {
+    getEscrow();
+
     addEventListener("RaceWon", onRaceWon);
     addEventListener("RaceLost", onRaceLost);
-
     return () => {
       removeEventListener("RaceWon", onRaceWon);
       removeEventListener("RaceLost", onRaceLost);
     };
   }, []);
 
-  const startGame = () => {
+  const startGame = async () => {
     console.log("startGame");
     sendMessage("GameManager", "StartRace");
   };

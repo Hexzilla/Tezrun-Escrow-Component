@@ -7,7 +7,7 @@ export const getEscrowBalance = () => {
   const url = `${TZSTATS_URL}/explorer/account/${Mainnet.Escrow}`;
   return axios.get(url)
     .then((res: any) => {
-      return res.spendable_balance;
+      return res.data.spendable_balance;
     })
     .catch(e => console.error(e));
 }
