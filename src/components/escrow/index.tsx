@@ -4,15 +4,18 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+import toast from "react-hot-toast";
 import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-context-hook";
 import { getEscrowBalance } from "services";
 import { useEscrow } from "hooks/useEscrow";
+import useBeacon from "hooks/useBeacon";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
 };
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
+  const { address } = useBeacon();
   const { deposit } = useEscrow();
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
   const [balance, setBalance] = useState(0);
@@ -43,8 +46,15 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
   }, []);
 
   const startGame = async () => {
-    console.log("startGame");
-    sendMessage("GameManager", "StartRace");
+    if (!address) {
+      toast.error('Please connect your wallet');
+      return;
+    }
+    const result = await deposit();
+    console.log("startGame", result);
+    if (!!result) {
+      sendMessage("GameManager", "StartRace");
+    }
   };
 
   return (
