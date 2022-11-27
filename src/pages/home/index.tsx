@@ -63,7 +63,7 @@ const Home = () => {
       // Update loading state.
       dispatch(setLoading(true));
 
-      const dappUrl = "playtime.com";
+      const dappUrl = "escrow-demo";
       const payload: string = [
         "Tezos Signed Message:",
         dappUrl,
