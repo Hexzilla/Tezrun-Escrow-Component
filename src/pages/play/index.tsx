@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch/*, useSelector*/ } from "react-redux";
-import toast from "react-hot-toast";
+import React from "react";
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
-//import { RootState } from "store";
 import { MainLayout } from "components/main-layout";
-//import TezosBoard from "components/play/playtime-tezos";
 import { Escrow } from "components/escrow";
 
 const unityConfig = {
@@ -16,9 +12,7 @@ const unityConfig = {
 };
 
 const Play = () => {
-  const dispatch = useDispatch();
   const unityContext = useUnityContext(unityConfig);
-  //const { connected } = useSelector((state: RootState) => state.play);
 
   return (
     <MainLayout>
@@ -49,7 +43,6 @@ const Play = () => {
             </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
-            {/* <TezosBoard socket={socket} /> */}
             <Escrow unityContext={unityContext}></Escrow>
           </Card>
         </Container>
