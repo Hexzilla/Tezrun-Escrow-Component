@@ -86,7 +86,12 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
   };
 
   const injectionCheat = () => {
-    toast.success(`This address has been banned for cheating. ${address}`);
+    if (!address) {
+      toast.error("Please connect your wallet");
+      return;
+    }
+    const shortAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
+    toast.success(`This address has been banned for cheating. ${shortAddress}`);
     sendMessage("GameManager", "RaceLost");
   };
 
