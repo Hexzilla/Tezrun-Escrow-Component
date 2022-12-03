@@ -36,14 +36,14 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     console.log("RaceWon", param);
     setPlayState(false);
     setRewards(true);
-    toast.success('Congratulations. You won!')
+    toast.success("Congratulations. You won!");
   };
 
   const onRaceLost = (param) => {
     console.log("RaceLost", param);
     setPlayState(false);
-    setRewards(true);
-    toast.error('You lose!')
+    setRewards(false);
+    toast.error("You lose!");
   };
 
   const getEscrow = async () => {
@@ -54,7 +54,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
 
   useInterval(() => {
     getEscrow();
-  }, 1000)
+  }, 1000);
 
   useEffect(() => {
     getEscrow();
@@ -65,7 +65,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       removeEventListener("RaceWon", onRaceWon);
       removeEventListener("RaceLost", onRaceLost);
     };
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   const startGame = async () => {
@@ -83,6 +83,11 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       getEscrow();
     }
     dispatch(setLoading(false));
+  };
+
+  const injectionCheat = () => {
+    toast.success(`This address has been banned for cheating. ${address}`);
+    sendMessage("GameManager", "RaceLost");
   };
 
   const takeReward = async () => {
@@ -131,16 +136,30 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button size="small" variant="outlined" onClick={startGame} disabled={!!playState}>
-                  Start Game
-                </Button>
                 <Button
                   size="small"
                   variant="outlined"
-                  onClick={takeReward}
-                  disabled={!!playState || !rewards}
+                  onClick={startGame}
+                  disabled={!!playState}
                 >
-                  Take Reward
+                  Start Game
+                </Button>
+                {!!rewards && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={takeReward}
+                    disabled={!!playState || !rewards}
+                  >
+                    Take Reward
+                  </Button>
+                )}
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={injectionCheat}
+                >
+                  JS Injection Cheat
                 </Button>
               </CardActions>
             </Card>
