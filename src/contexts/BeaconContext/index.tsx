@@ -102,6 +102,7 @@ export const BeaconProvider: React.FC<{ children: ReactNode }> = ({
 
   const disconnectWallet = useCallback(async () => {
     setConnected(false);
+    setAddress(undefined);
     if (wallet) {
       await wallet.clearActiveAccount();
     }

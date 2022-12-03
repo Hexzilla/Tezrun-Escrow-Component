@@ -6,6 +6,7 @@ interface PlayState {
   playerId: string | null;
   roomId: number | null;
   startTime: string | null;
+  banned: boolean;
 }
 
 const initialState: PlayState = {
@@ -14,6 +15,7 @@ const initialState: PlayState = {
   playerId: null,
   roomId: 0,
   startTime: null,
+  banned: false,
 };
 
 const slice = createSlice({
@@ -49,6 +51,9 @@ const slice = createSlice({
       state.roomId = item.roomId;
       state.startTime = item.startTime;
     },
+    setBanned(state, action: PayloadAction<boolean>) {
+      state.banned = action.payload;
+    }
   },
 });
 
@@ -62,4 +67,5 @@ export const {
   setStartTime,
   setJoinedRoom,
   setOpenRoom,
+  setBanned,
 } = slice.actions;

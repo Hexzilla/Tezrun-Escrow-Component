@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -14,10 +14,11 @@ import {
 import toast from "react-hot-toast";
 import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-context-hook";
 import * as escrowService from "services";
-import { setLoading } from "slices/play";
+import { setLoading, setBanned } from "slices/play";
 import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
 import useInterval from "hooks/useInterval";
+import { RootState } from "store";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
@@ -28,10 +29,10 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
   const { address } = useBeacon();
   const { deposit } = useEscrow();
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
+  const { banned } = useSelector((state: RootState) => state.play);
   const [balance, setBalance] = useState(0);
   const [playState, setPlayState] = useState(false);
   const [rewards, setRewards] = useState(false);
-  const [banned, setBanned] = useState(false);
 
   const onRaceWon = (param) => {
     console.log("RaceWon", param);
@@ -94,7 +95,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     const shortAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
     toast.error(`This address has been banned for cheating. ${shortAddress}`);
     sendMessage("GameManager", "RaceLost");
-    setBanned(true);
+    dispatch(setBanned(true));
   };
 
   const takeReward = async () => {
