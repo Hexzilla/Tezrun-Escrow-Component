@@ -31,6 +31,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
   const [balance, setBalance] = useState(0);
   const [playState, setPlayState] = useState(false);
   const [rewards, setRewards] = useState(false);
+  const [banned, setBanned] = useState(false);
 
   const onRaceWon = (param) => {
     console.log("RaceWon", param);
@@ -93,6 +94,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     const shortAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
     toast.error(`This address has been banned for cheating. ${shortAddress}`);
     sendMessage("GameManager", "RaceLost");
+    setBanned(true);
   };
 
   const takeReward = async () => {
@@ -145,7 +147,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                   size="small"
                   variant="outlined"
                   onClick={startGame}
-                  disabled={!!playState}
+                  disabled={!!playState || banned}
                 >
                   Start Game
                 </Button>
