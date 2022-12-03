@@ -91,7 +91,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       return;
     }
     const shortAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
-    toast.success(`This address has been banned for cheating. ${shortAddress}`);
+    toast.error(`This address has been banned for cheating. ${shortAddress}`);
     sendMessage("GameManager", "RaceLost");
   };
 
@@ -149,16 +149,14 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                 >
                   Start Game
                 </Button>
-                {!!rewards && (
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={takeReward}
-                    disabled={!!playState || !rewards}
-                  >
-                    Take Reward
-                  </Button>
-                )}
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={takeReward}
+                  disabled={!!playState || !rewards}
+                >
+                  Take Reward
+                </Button>
                 <Button
                   size="small"
                   variant="outlined"
