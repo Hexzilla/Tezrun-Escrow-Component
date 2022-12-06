@@ -19,6 +19,7 @@ import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
 import useInterval from "hooks/useInterval";
 import { RootState } from "store";
+import { DebugMenu } from "../debug";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
@@ -92,7 +93,9 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       toast.error("Please connect your wallet");
       return;
     }
-    const shortAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
+    const shortAddress = `${address.substring(0, 4)}...${address.substring(
+      address.length - 4
+    )}`;
     toast.error(`This address has been banned for cheating. ${shortAddress}`);
     sendMessage("GameManager", "RaceLost");
     dispatch(setBanned(true));
@@ -120,7 +123,9 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     >
       <Container maxWidth="xl">
         <Grid container justifyContent="space-between" spacing={3}>
-          <Grid item md={6} xs={12}></Grid>
+          <Grid item md={6} xs={12}>
+            <DebugMenu unityContext={unityContext} />
+          </Grid>
           <Grid item md={6} xs={12}>
             <Card>
               <CardContent>

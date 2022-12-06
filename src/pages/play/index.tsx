@@ -1,11 +1,12 @@
 import React from "react";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { MainLayout } from "components/main-layout";
 import { Escrow } from "components/escrow";
 import { RootState } from "store";
 import Loader from "components/loader";
+import "./styles.css";
 
 const unityConfig = {
   loaderUrl: "Build/public.loader.js",
@@ -17,6 +18,7 @@ const unityConfig = {
 const Play = () => {
   const { loading } = useSelector((state: RootState) => state.play);
   const unityContext = useUnityContext(unityConfig);
+  const { loadingProgression, isLoaded } = unityContext;
 
   return (
     <MainLayout>
@@ -35,6 +37,7 @@ const Play = () => {
                 display: "flex",
                 justifyContent: "center",
                 minHeight: "540px",
+                position: "relative",
               }}
             >
               <Unity
@@ -45,6 +48,12 @@ const Play = () => {
                   background: "#555",
                 }}
               />
+              {!isLoaded && loadingProgression > 0 && (
+                <div className="unity-loader">
+                  <div>{Math.floor(100 * loadingProgression)}</div>
+                  <div>Loading</div>
+                </div>
+              )}
             </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
