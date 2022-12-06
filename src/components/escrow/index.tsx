@@ -25,7 +25,7 @@ type EscrowProps = {
   unityContext: UnityContextHook;
 };
 
-const JSInjection = false;
+const JSInjection = true;
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
   const dispatch = useDispatch();
