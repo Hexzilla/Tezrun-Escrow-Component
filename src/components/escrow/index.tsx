@@ -108,6 +108,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     const result = await escrowService.takeRewards(address!);
     console.log("take, result", result);
     if (!!result) {
+      setRewards(false);
       toast.success("You took rewards successfully");
     } else {
       toast.error("Something went wrong!");
