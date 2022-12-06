@@ -57,7 +57,7 @@ export const RewardModal = ({ onClose }: RewardModalProps) => {
     }
     dispatch(setLoading(false));
     // eslint-disable-next-line
-  }, [address]);
+  }, [dispatch, address]);
 
   return (
     <div style={LoadBox}>
