@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
