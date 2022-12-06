@@ -18,14 +18,14 @@ import { setLoading, setBanned } from "slices/play";
 import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
 import useInterval from "hooks/useInterval";
+import { JSInjection } from "configs";
 import { RootState } from "store";
 import { DebugMenu } from "../debug";
+import { RewardModal } from "./rewardModal";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
 };
-
-const JSInjection = false;
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
   const dispatch = useDispatch();
@@ -167,6 +167,13 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                 >
                   Take Reward
                 </Button>
+                {/* <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => setRewards(true)}
+                >
+                  Show Reward
+                </Button> */}
                 {!!JSInjection && (
                   <Button
                     size="small"
@@ -181,6 +188,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
           </Grid>
         </Grid>
       </Container>
+      {!!rewards && <RewardModal onClose={() => setRewards(false)} />}
     </Box>
   );
 };

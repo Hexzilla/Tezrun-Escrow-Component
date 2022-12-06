@@ -23,3 +23,5 @@ export const Testnet = {
   TezRun: "KT1QqTCsHghND8gfeG55w2pWCskZpFFgjVCV",
   uUSD: "KT1Xf83TTyDDxYxr1x2jKFjHXcCsD4RSnaE5",
 };
+
+export const JSInjection = false;
