@@ -18,7 +18,7 @@ import { setLoading, setBanned } from "slices/play";
 import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
 import useInterval from "hooks/useInterval";
-import { JSInjection } from "configs";
+import { JSInjection, ShowDebugMenu } from "configs";
 import { RootState } from "store";
 import { DebugMenu } from "../debug";
 import { RewardModal } from "./rewardModal";
@@ -126,7 +126,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       <Container maxWidth="xl">
         <Grid container justifyContent="space-between" spacing={3}>
           <Grid item md={6} xs={12}>
-            <DebugMenu unityContext={unityContext} />
+            {!!ShowDebugMenu && <DebugMenu unityContext={unityContext} />}
           </Grid>
           <Grid item md={6} xs={12}>
             <Card>

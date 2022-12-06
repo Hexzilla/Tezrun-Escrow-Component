@@ -25,3 +25,4 @@ export const Testnet = {
 };
 
 export const JSInjection = false;
+export const ShowDebugMenu = false;
