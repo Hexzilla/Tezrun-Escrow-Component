@@ -28,7 +28,7 @@ const Play = () => {
     } else if (loadingPercent < loadingProgression) {
       setLoadingPercent(loadingPercent + 0.01);
     }
-  }, 20);
+  }, 200);
 
   return (
     <MainLayout>
