@@ -15,8 +15,16 @@ type DebugMenuProps = {
 export const DebugMenu = ({ unityContext }: DebugMenuProps) => {
   const { sendMessage } = unityContext;
 
-  const startGame = async () => {
+  const startGame = () => {
     sendMessage("GameManager", "StartRace");
+  };
+
+  const raceWin = () => {
+    sendMessage("GameManager", "RaceWin");
+  };
+
+  const raceLost = () => {
+    sendMessage("GameManager", "RaceLost");
   };
 
   return (
@@ -36,6 +44,12 @@ export const DebugMenu = ({ unityContext }: DebugMenuProps) => {
       <CardActions>
         <Button size="small" variant="outlined" onClick={startGame}>
           Start Game
+        </Button>
+        <Button size="small" variant="outlined" onClick={raceWin}>
+          Race Win
+        </Button>
+        <Button size="small" variant="outlined" onClick={raceLost}>
+          Race Lost
         </Button>
       </CardActions>
     </Card>
