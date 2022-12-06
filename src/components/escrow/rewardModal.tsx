@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { useCallback, CSSProperties } from "react";
 import { useDispatch } from "react-redux";
 import {
   Avatar,
@@ -42,7 +42,7 @@ export const RewardModal = ({ onClose }: RewardModalProps) => {
   const dispatch = useDispatch();
   const { address } = useBeacon();
 
-  const takeReward = async () => {
+  const takeReward = useCallback(async () => {
     dispatch(setLoading(true));
 
     const result = await escrowService.takeRewards(address!);
@@ -56,7 +56,8 @@ export const RewardModal = ({ onClose }: RewardModalProps) => {
       );
     }
     dispatch(setLoading(false));
-  };
+    // eslint-disable-next-line
+  }, [address]);
 
   return (
     <div style={LoadBox}>
