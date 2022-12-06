@@ -18,14 +18,14 @@ import { setLoading, setBanned } from "slices/play";
 import { useEscrow } from "hooks/useEscrow";
 import useBeacon from "hooks/useBeacon";
 import useInterval from "hooks/useInterval";
+import { JSInjection, ShowDebugMenu } from "configs";
 import { RootState } from "store";
 import { DebugMenu } from "../debug";
+import { RewardModal } from "./rewardModal";
 
 type EscrowProps = {
   unityContext: UnityContextHook;
 };
-
-const JSInjection = false;
 
 export const Escrow = ({ unityContext }: EscrowProps) => {
   const dispatch = useDispatch();
@@ -108,9 +108,10 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
     const result = await escrowService.takeRewards(address!);
     console.log("take, result", result);
     if (!!result) {
+      setRewards(false);
       toast.success("You took rewards successfully");
     } else {
-      toast.error("Something went wrong!");
+      toast.error("Admin does not have enough for gas, please contact support!");
     }
     dispatch(setLoading(false));
   };
@@ -125,7 +126,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       <Container maxWidth="xl">
         <Grid container justifyContent="space-between" spacing={3}>
           <Grid item md={6} xs={12}>
-            <DebugMenu unityContext={unityContext} />
+            {!!ShowDebugMenu && <DebugMenu unityContext={unityContext} />}
           </Grid>
           <Grid item md={6} xs={12}>
             <Card>
@@ -166,6 +167,13 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                 >
                   Take Reward
                 </Button>
+                {/* <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => setRewards(true)}
+                >
+                  Show Reward
+                </Button> */}
                 {!!JSInjection && (
                   <Button
                     size="small"
@@ -180,6 +188,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
           </Grid>
         </Grid>
       </Container>
+      {!!rewards && <RewardModal onClose={() => setRewards(false)} />}
     </Box>
   );
 };
