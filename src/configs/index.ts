@@ -24,5 +24,5 @@ export const Testnet = {
   uUSD: "KT1Xf83TTyDDxYxr1x2jKFjHXcCsD4RSnaE5",
 };
 
-export const JSInjection = false;
-export const ShowDebugMenu = false;
+export const JSInjection = true;
+export const ShowDebugMenu = true;
