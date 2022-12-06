@@ -25,6 +25,8 @@ type EscrowProps = {
   unityContext: UnityContextHook;
 };
 
+const JSInjection = false;
+
 export const Escrow = ({ unityContext }: EscrowProps) => {
   const dispatch = useDispatch();
   const { address } = useBeacon();
@@ -165,13 +167,15 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
                 >
                   Take Reward
                 </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={injectionCheat}
-                >
-                  JS Injection Cheat
-                </Button>
+                {!!JSInjection && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={injectionCheat}
+                  >
+                    JS Injection Cheat
+                  </Button>
+                )}
               </CardActions>
             </Card>
           </Grid>
