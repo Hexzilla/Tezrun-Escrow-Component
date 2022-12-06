@@ -99,7 +99,6 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       address.length - 4
     )}`;
     toast.error(`This address has been banned for cheating. ${shortAddress}`);
-    sendMessage("GameManager", "RaceLost");
     dispatch(setBanned(true));
   };
 
