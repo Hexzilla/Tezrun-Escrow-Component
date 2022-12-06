@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Box, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
@@ -7,7 +7,6 @@ import { Escrow } from "components/escrow";
 import { RootState } from "store";
 import Loader from "components/loader";
 import "./styles.css";
-import useInterval from "hooks/useInterval";
 
 const unityConfig = {
   loaderUrl: "Build/public.loader.js",
@@ -20,15 +19,6 @@ const Play = () => {
   const { loading } = useSelector((state: RootState) => state.play);
   const unityContext = useUnityContext(unityConfig);
   const { loadingProgression, isLoaded } = unityContext;
-  const [loadingPercent, setLoadingPercent] = useState(0);
-
-  useInterval(() => {
-    if (loadingProgression >= 1) {
-      setLoadingPercent(1);
-    } else if (loadingPercent < loadingProgression) {
-      setLoadingPercent(loadingPercent + 0.01);
-    }
-  }, 200);
 
   return (
     <MainLayout>
@@ -60,8 +50,7 @@ const Play = () => {
               />
               {!isLoaded && loadingProgression > 0 && (
                 <div className="unity-loader">
-                  <div>{Math.floor(100 * loadingPercent)}</div>
-                  <div>Loading</div>
+                  <div>Loading... {Math.round(loadingProgression * 100)}%</div>
                 </div>
               )}
             </CardContent>
