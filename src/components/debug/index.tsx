@@ -19,13 +19,13 @@ export const DebugMenu = ({ unityContext }: DebugMenuProps) => {
     sendMessage("GameManager", "StartRace");
   };
 
-  const raceWin = () => {
-    sendMessage("GameManager", "RaceWin");
-  };
+  // const raceWin = () => {
+  //   sendMessage("GameManager", "RaceWin");
+  // };
 
-  const raceLost = () => {
-    sendMessage("GameManager", "RaceLost");
-  };
+  // const raceLost = () => {
+  //   sendMessage("GameManager", "RaceLost");
+  // };
 
   return (
     <Card>
@@ -45,12 +45,12 @@ export const DebugMenu = ({ unityContext }: DebugMenuProps) => {
         <Button size="small" variant="outlined" onClick={startGame}>
           Start Game
         </Button>
-        <Button size="small" variant="outlined" onClick={raceWin}>
+        {/* <Button size="small" variant="outlined" onClick={raceWin}>
           Race Win
         </Button>
         <Button size="small" variant="outlined" onClick={raceLost}>
           Race Lost
-        </Button>
+        </Button> */}
       </CardActions>
     </Card>
   );
