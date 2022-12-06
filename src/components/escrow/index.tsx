@@ -111,7 +111,7 @@ export const Escrow = ({ unityContext }: EscrowProps) => {
       setRewards(false);
       toast.success("You took rewards successfully");
     } else {
-      toast.error("Something went wrong!");
+      toast.error("Admin does not have enough for gas, please contact support!");
     }
     dispatch(setLoading(false));
   };
